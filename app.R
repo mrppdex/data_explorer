@@ -2,65 +2,47 @@ library(shiny)
 library(sortable)
 library(htmlwidgets)
 
+bucket_list_args_init <- list(
+  orientation="vertical",
+  header=c("Move items between buckets")
+)
+
+# bucket_list_args_lists <- list(
+#   add_rank_list("drag from here",
+#                 input_id = 'list1',
+#                 c("one", "two", "three")),
+#   add_rank_list("to here",
+#                 input_id = 'list2')
+# )
+
+bucket_list_args <- c(bucket_list_args_init,bucket_list_args_lists)
+
 ui <- fluidPage(
-  tags$head(
-    tags$link(rel = "stylesheet", href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css", integrity = "sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN",  crossorigin = "anonymous"),
-    #tags$link(rel = "stylesheet", href = "https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.css"),
-    tags$script(src = "https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js")
-  ),
-
-  tags$div(
-    id='allcards',
-    class="container d-flex justify-content-center align-items-center vh-100",
-    tags$div(
-      class='card',
-      style="width: 18rem;",
+  fluidRow(
+    column(
+      width=4,
       tags$div(
-        class='card-body',
-        tags$ul(
-          id="example_1",
-          tags$li(class="btn btn-primary p-2", "Item 1"),
-          tags$li(class="btn btn-primary p-2", "Item 2")
-        )
-      ),
+        id='allcards',
+        do.call(bucket_list, bucket_list_args)
+      )
     ),
-
-    tags$div(
-      class='card',
-      style='width: 18rem;',
+    column(
+      width=8,
       tags$div(
-        class='card-body',
-        tags$ul(
-          id="example_2",
-          tags$li(class="btn btn-secondary p-2", "Item 1"),
-          tags$li(class="btn btn-secondary p-2", "Item 2")
-        ),
+        tags$p('First list'),
+        verbatimTextOutput('results_1')
+      ),
+      tags$div(
+        tags$p('Second list'),
+        verbatimTextOutput('results_2')
       )
     )
-  ),
-
-  sortable_js(
-    css_id = "example_1",
-    sortable_options(group = "shared")
-  ),
-
-  sortable_js(
-    css_id = "example_2",
-    sortable_options(group = "shared")
   )
-
-  # sortable_js(
-  #   css_id = "dropzone",
-  #   sortable_options(group = "shared")
-  # )
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$example_1, {
-    itemID <- input$example_1
-    print(itemID)
-    # message <- sprintf("Item with ID '%s' was dropped.", itemID)
-    # cat(message, '\n')
+  observe({
+    update_
   })
 }
 
